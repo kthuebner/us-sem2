@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Analysis #1 — Japanese Internment Camps</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Kulim+Park:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #111111;
+    --surface: #1c1c1c;
+    --surface2: #232323;
+    --border: #333333;
+    --red: #c0392b;
+    --red-light: #e74c3c;
+    --text: #e8e4dc;
+    --text-muted: #9a9690;
+    --text-dim: #6b6760;
+    --lange-accent: #8B6F47;
+    --adams-accent: #4a7c9e;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Kulim Park', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* HERO */
+  .hero {
+    background: #0a0a0a;
+    border-bottom: 3px solid var(--red);
+    padding: 52px 40px 44px;
+    text-align: center;
+  }
+  .hero-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 46px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.1;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hero-sub {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* LAYOUT */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 64px;
+  }
+
+  /* SECTION HEADERS */
+  .section-header {
+    margin: 52px 0 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .section-header h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .section-header .section-tag {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    padding: 3px 8px;
+    border: 1px solid var(--red);
+  }
+
+  /* INTRO TEXT */
+  .intro-block {
+    background: var(--surface);
+    border-left: 4px solid var(--red);
+    padding: 22px 26px;
+    margin-bottom: 36px;
+    font-size: 14.5px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+  .intro-block p + p { margin-top: 10px; }
+
+  /* BIO CARDS — fixed layout: header, then two columns (photo col + text col) */
+  .bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 8px;
+  }
+  .bio-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .bio-card-header {
+    padding: 14px 20px 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .bio-card-header .photographer-tag {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    flex-shrink: 0;
+  }
+  .lange-tag { background: var(--lange-accent); color: #fff; }
+  .adams-tag { background: var(--adams-accent); color: #fff; }
+  .bio-card-header h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .bio-card-header .years {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-dim);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* Bio body: two columns side by side — photos left, text right */
+  .bio-columns {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    flex: 1;
+  }
+  .bio-photo-col {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+  }
+  .bio-photo-col .bio-photo-wrap {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+  .bio-photo-col .bio-photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: grayscale(100%);
+  }
+  .bio-photo-col .sig-label {
+    background: rgba(0,0,0,0.75);
+    font-family: 'Oswald', sans-serif;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 4px 8px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .bio-text-col {
+    padding: 18px 20px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    overflow: auto;
+  }
+  .bio-text-col p + p { margin-top: 8px; }
+  .bio-text-col strong { color: var(--text); font-weight: 600; }
+  .bio-approach {
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-left: 3px solid var(--border);
+    font-style: italic;
+    font-size: 12.5px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .lange-approach { border-left-color: var(--lange-accent); }
+  .adams-approach { border-left-color: var(--adams-accent); }
+
+  /* ANALYSIS QUESTION BOX */
+  .analysis-prompt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    padding: 18px 22px;
+    margin: 36px 0 10px;
+  }
+  .analysis-prompt .prompt-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+  .analysis-prompt h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+  }
+  .analysis-prompt ol {
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+  .analysis-prompt ol li + li { margin-top: 5px; }
+
+  /* PHOTOGRAPHER SECTION LABEL */
+  .photographer-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 44px 0 20px;
+    flex-wrap: wrap;
+  }
+  .photographer-label .p-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #fff;
+  }
+  .photographer-label .p-tag {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    flex-shrink: 0;
+  }
+  .photographer-label .p-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    min-width: 20px;
+  }
+  .photographer-label .p-context {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* PHOTO GRID */
+  .photo-grid { display: grid; gap: 3px; }
+  .photo-grid.two-col { grid-template-columns: 1fr 1fr; }
+  .photo-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+  .photo-grid.one-col { grid-template-columns: 1fr; }
+
+  .photo-card {
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .photo-card img {
+    width: 100%;
+    display: block;
+    filter: grayscale(100%);
+    cursor: zoom-in;
+    transition: opacity 0.15s ease;
+  }
+  .photo-card img:hover { opacity: 0.88; }
+
+  .photo-meta { padding: 12px 14px 14px; flex: 1; }
+  .photo-number {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .photo-caption {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    font-style: italic;
+  }
+  .photo-credit {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 6px;
+  }
+
+  /* REVIEW QUESTIONS BLOCK */
+  .review-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    padding: 24px 28px 28px;
+    margin: 48px 0 0;
+  }
+  .review-block .review-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .review-block .review-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  .review-q {
+    margin-bottom: 22px;
+  }
+  .review-q:last-child { margin-bottom: 0; }
+  .review-q .q-number {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+  .review-q .q-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .answer-line {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+    height: 28px;
+  }
+  .answer-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 3px;
+    margin-top: 10px;
+  }
+
+  /* IMPACT COMPARISON */
+  .impact-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--lange-accent);
+    padding: 22px 26px;
+    margin: 4px 0 0;
+  }
+  .impact-block .comp-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--lange-accent);
+    margin-bottom: 6px;
+  }
+  .impact-block h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .comp-col {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .comp-col .comp-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid;
+  }
+  .lange-name { color: #c49a6c; border-color: var(--lange-accent); }
+  .adams-name { color: #6fa8cc; border-color: var(--adams-accent); }
+
+  /* SOURCE CREDIT */
+  .source-credit {
+    margin-top: 52px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    .bio-grid, .comp-grid { grid-template-columns: 1fr; }
+    .bio-columns { grid-template-columns: 1fr; }
+    .bio-photo-col { display: none; }
+    .photo-grid.three-col, .photo-grid.two-col { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 30px; }
+  }
+
+  /* ── LIGHTBOX ──────────────────────────────────────── */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.93);
+    cursor: zoom-out;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .lightbox-overlay.active {
+    display: flex;
+  }
+  .lightbox-inner {
+    position: relative;
+    max-width: 95vw;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .lightbox-inner img {
+    max-width: 90vw;
+    max-height: 88vh;
+    object-fit: contain;
+    filter: grayscale(100%);
+    display: block;
+    box-shadow: 0 8px 60px rgba(0,0,0,0.8);
+  }
+  .lightbox-caption {
+    margin-top: 14px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #6b6760;
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.6;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #6b6760;
+    font-family: 'Oswald', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 4px 0;
+    transition: color 0.15s;
+  }
+  .lightbox-close:hover { color: #e8e4dc; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Photo Analysis, #1</div>
+  <h1>Japanese Internment Camps</h1>
+  <div class="hero-sub">Dorothea Lange &amp; Ansel Adams</div>
+</div>
+
+<div class="page">
+
+  <!-- INTRO -->
+  <div class="section-header">
+    <h2>Background</h2>
+    <span class="section-tag">Context</span>
+  </div>
+  <div class="intro-block">
+    <p>After Japan bombed Pearl Harbor in December 1941, President Roosevelt signed Executive Order 9066, authorizing the forced removal of approximately 110,000 Japanese and Japanese-Americans from their homes on the West Coast. They were sent to remote War Relocation Authority camps for the duration of the war, without trial, charges, or due process.</p>
+    <p>Two acclaimed American photographers documented the camps, but from very different vantage points, with very different purposes, and with very different outcomes for their work.</p>
+  </div>
+
+  <!-- BIO CARDS -->
+  <div class="section-header">
+    <h2>The Photographers</h2>
+    <span class="section-tag">Biographies</span>
+  </div>
+
+  <div class="bio-grid">
+
+    <!-- DOROTHEA LANGE -->
+    <div class="bio-card">
+      <div class="bio-card-header">
+        <span class="photographer-tag lange-tag">Lange</span>
+        <h3>Dorothea Lange</h3>
+        <span class="years">1895, 1965</span>
+      </div>
+      <div class="bio-columns">
+        <div class="bio-photo-col">
+          <div class="bio-photo-wrap" style="flex:1.1;">
+            <img src="https://tile.loc.gov/storage-services/service/pnp/fsa/8b30000/8b38000/8b38328v.jpg" alt="Dorothea Lange photographing from the top of a car">
+          </div>
+          <div class="bio-photo-wrap" style="flex:1;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/54/Lange-MigrantMother02.jpg" alt="Migrant Mother, 1936" style="object-position: center center;">
+          </div>
+          <div class="sig-label">Migrant Mother, 1936</div>
+        </div>
+        <div class="bio-text-col">
+          <p>Dorothea Lange is best known for her documentary work during the Great Depression. While working for the Farm Security Administration, she photographed migrant workers, displaced families, and the human cost of the Dust Bowl. Her image <strong>Migrant Mother</strong> (1936) became one of the most iconic photographs in American history.</p>
+          <p>Lange believed photography was a tool for social change, a way to make injustice visible to those who might otherwise ignore it. When the U.S. government hired her to photograph the internment process, it hoped she would show the relocation as orderly and humane. She did not.</p>
+          <p>Her hundreds of photographs captured confusion, fear, and the stripping away of ordinary American life. <strong>The government seized her photos before they could be published.</strong> They were suppressed until after the war ended.</p>
+          <div class="bio-approach lange-approach">Approach: Documentary realism. Show hardship honestly. Use photography as witness and protest.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANSEL ADAMS -->
+    <div class="bio-card">
+      <div class="bio-card-header">
+        <span class="photographer-tag adams-tag">Adams</span>
+        <h3>Ansel Adams</h3>
+        <span class="years">1902, 1984</span>
+      </div>
+      <div class="bio-columns">
+        <div class="bio-photo-col">
+          <div class="bio-photo-wrap" style="flex:1.1;">
+            <img src="https://tile.loc.gov/storage-services/service/pnp/ppprs/00300/00358v.jpg" alt="Ansel Adams with his large format camera">
+          </div>
+          <div class="bio-photo-wrap" style="flex:1;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Adams_The_Tetons_and_the_Snake_River.jpg" alt="The Tetons and the Snake River, 1942">
+          </div>
+          <div class="sig-label">Tetons &amp; Snake River, 1942</div>
+        </div>
+        <div class="bio-text-col">
+          <p>Ansel Adams is the most celebrated landscape photographer in American history. Famous for his sweeping, technically precise black-and-white images of the American West, his work helped define how Americans visualize their wilderness.</p>
+          <p>Adams visited Manzanar in 1943 at the personal invitation of camp director Ralph Merritt, a close friend. He was not hired by the government. He came on his own terms, with his own agenda.</p>
+          <p>His goal was to challenge internment by showing its victims as <strong>dignified, resilient, patriotic Americans.</strong> He was barred from photographing guard towers or barbed wire, so he focused instead on faces, baseball games, chapels, and community life.</p>
+          <p><strong>Unlike Lange, Adams was allowed to publish his photos,</strong> before the war ended, in a 1944 book titled <em>Born Free and Equal,</em> warning about the dangers of letting wartime hysteria justify stripping U.S. citizens of their freedom.</p>
+          <div class="bio-approach adams-approach">Approach: Dignified portraiture. Show humanity and resilience. Challenge internment by humanizing its victims.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ANALYSIS QUESTIONS -->
+  <div class="analysis-prompt">
+    <div class="prompt-label">Photo Analysis, What to Look For</div>
+    <h3>As you examine the photographs below, consider the following questions:</h3>
+    <ol>
+      <li><strong>Who or what is the subject?</strong> What does the photographer choose to show, and what do they leave out?</li>
+      <li><strong>What is the mood or tone?</strong> How do lighting, composition, and framing shape how you feel about what you are seeing?</li>
+      <li><strong>What was the photographer's purpose?</strong> Was this photograph meant to document, protest, humanize, or persuade?</li>
+      <li><strong>How does knowing the photographer's background change how you read the image?</strong></li>
+      <li><strong>How did each photographer try to point out injustice?</strong> Which approach do you think was more effective?</li>
+    </ol>
+  </div>
+
+  <!-- DOROTHEA LANGE PHOTOS -->
+  <div class="photographer-label">
+    <span class="p-tag lange-tag">Lange</span>
+    <span class="p-name">Dorothea Lange</span>
+    <span class="p-context">Hired by the War Relocation Authority, Photos suppressed by the government, 1942</span>
+    <div class="p-line"></div>
+  </div>
+
+  <div class="photo-grid one-col" style="margin-bottom:3px;">
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/fsa/8b30000/8b30700/8b30724v.jpg" alt="Japanese Americans lining up for registration" onclick="openLightbox(this.src, 'April 25, 1942, San Francisco, California. Residents of Japanese ancestry appear for registration prior to evacuation. Evacuees are reading notices posted by the Western Defense Command ordering all persons of Japanese ancestry to report for removal.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 1</div>
+        <div class="photo-caption">April 25, 1942, San Francisco, California. Residents of Japanese ancestry appear for registration prior to evacuation. Evacuees are reading notices posted by the Western Defense Command ordering all persons of Japanese ancestry to report for removal.</div>
+        <div class="photo-credit">Dorothea Lange, Courtesy The Bancroft Library, University of California, Berkeley</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-grid two-col" style="margin-bottom:3px;">
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/fsa/8b30000/8b30700/8b30783v.jpg" alt="Row of barracks in a muddy internment camp" onclick="openLightbox(this.src, 'Newly arrived evacuees inspect their assigned quarters, long wooden barracks lining a muddy unpaved road. Manzanar, California, 1942.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 2</div>
+        <div class="photo-caption">Newly arrived evacuees inspect their assigned quarters, long wooden barracks lining a muddy unpaved road. Manzanar, California, 1942.</div>
+        <div class="photo-credit">Dorothea Lange, Courtesy The Bancroft Library, University of California, Berkeley</div>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/fsa/8b30000/8b30700/8b30777v.jpg" alt="Close view of barrack interiors under construction" onclick="openLightbox(this.src, 'The hastily constructed barracks at this assembly center, converted from a racetrack, show open doors, exposed lumber, and sparse interiors. Horse stalls were remodeled into living quarters for families.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 3</div>
+        <div class="photo-caption">The hastily constructed barracks at this assembly center, converted from a racetrack, show open doors, exposed lumber, and sparse interiors. Horse stalls were remodeled into living quarters for families.</div>
+        <div class="photo-credit">Dorothea Lange, Courtesy The Bancroft Library, University of California, Berkeley</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-grid two-col">
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/fsa/8b30000/8b30700/8b30753v.jpg" alt="American flag over Manzanar in a dust storm" onclick="openLightbox(this.src, 'A hot windstorm brings dust from the surrounding desert across Manzanar, obscuring the barracks while an American flag flies above the scene. Manzanar, California, 1942.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 4</div>
+        <div class="photo-caption">A hot windstorm brings dust from the surrounding desert across Manzanar, obscuring the barracks while an American flag flies above the scene. Manzanar, California, 1942.</div>
+        <div class="photo-credit">Dorothea Lange, Courtesy The Bancroft Library, University of California, Berkeley</div>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/fsa/8b30000/8b30700/8b30769v.jpg" alt="Long lines of evacuees waiting at the mess hall" onclick="openLightbox(this.src, 'April 29, 1942, San Bruno, California. Hundreds of newly arrived evacuees line up outside the only mess hall operating on this day. The former racetrack is visible in the background.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 5</div>
+        <div class="photo-caption">April 29, 1942, San Bruno, California. Hundreds of newly arrived evacuees line up outside the only mess hall operating on this day. The former racetrack is visible in the background.</div>
+        <div class="photo-credit">Dorothea Lange, Courtesy The Bancroft Library, University of California, Berkeley</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANSEL ADAMS PHOTOS -->
+  <div class="photographer-label">
+    <span class="p-tag adams-tag">Adams</span>
+    <span class="p-name">Ansel Adams</span>
+    <span class="p-context">Visited Manzanar voluntarily, Photos published in 1944, "Born Free and Equal"</span>
+    <div class="p-line"></div>
+  </div>
+
+  <div class="photo-grid one-col" style="margin-bottom:3px;">
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/ppprs/00200/00226v.jpg" alt="Manzanar War Relocation Center entrance sign" onclick="openLightbox(this.src, 'The entrance to the Manzanar War Relocation Center, with the Sierra Nevada in the background. Adams visited in 1943 at the invitation of camp director Ralph Merritt.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 6</div>
+        <div class="photo-caption">The entrance to the Manzanar War Relocation Center, with the Sierra Nevada in the background. Adams visited in 1943 at the invitation of camp director Ralph Merritt.</div>
+        <div class="photo-credit">Ansel Adams, Courtesy Photographic Traveling Exhibitions</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="photo-grid three-col" style="margin-bottom:3px;">
+    <div class="photo-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/The_Library_of_Congress_-_Baseball_game%2C_Manzanar_Relocation_Center%2C_Calif._%28LOC%29.jpg" alt="Baseball game at Manzanar" onclick="openLightbox(this.src, 'A baseball game at Manzanar, with the Sierra Nevada rising behind the outfield. Adams emphasized scenes of community, recreation, and ordinary American life.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 7</div>
+        <div class="photo-caption">A baseball game at Manzanar, with the Sierra Nevada rising behind the outfield. Adams emphasized scenes of community, recreation, and ordinary American life.</div>
+        <div class="photo-credit">Ansel Adams, Courtesy Photographic Traveling Exhibitions</div>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/ppprs/00300/00374v.jpg" alt="Town hall meeting inside a Manzanar barrack" onclick="openLightbox(this.src, 'A community town hall meeting inside one of the barracks. Adams framed his subjects to emphasize dignity and civic engagement.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 8</div>
+        <div class="photo-caption">A community town hall meeting inside one of the barracks. Adams framed his subjects to emphasize dignity and civic engagement.</div>
+        <div class="photo-credit">Ansel Adams, Courtesy Photographic Traveling Exhibitions</div>
+      </div>
+    </div>
+    <div class="photo-card">
+      <img src="https://tile.loc.gov/storage-services/service/pnp/ppprs/00200/00275v.jpg" alt="Manzanar from the guard tower" onclick="openLightbox(this.src, 'Manzanar from a guard tower, looking down the central road toward the Sierra Nevada. Adams was barred from photographing guard towers or barbed wire. This wide view is a rare exception.')">
+      <div class="photo-meta">
+        <div class="photo-number">Photo 9</div>
+        <div class="photo-caption">Manzanar from a guard tower, looking down the central road toward the Sierra Nevada. Adams was barred from photographing guard towers or barbed wire. This wide view is a rare exception.</div>
+        <div class="photo-credit">Ansel Adams, Courtesy Photographic Traveling Exhibitions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPACT COMPARISON -->
+  <div class="impact-block">
+    <div class="comp-label">Discussion</div>
+    <h3>Which approach do you think was the most impactful?</h3>
+    <div class="comp-grid">
+      <div class="comp-col">
+        <div class="comp-name lange-name">Dorothea Lange</div>
+        Hired by the government to document the relocation process, Lange refused to make it look acceptable. Her photos showed chaos, fear, and injustice. She captured shuttered businesses, stressed faces, crowded buses, and threadbare barracks. The government recognized what she had done and seized her photographs, suppressing them for the remainder of the war. Her work could not speak to anyone until the damage was already done.
+      </div>
+      <div class="comp-col">
+        <div class="comp-name adams-name">Ansel Adams</div>
+        Adams went to Manzanar on his own terms, not hired by the government. Restricted from photographing barbed wire or guard towers, he focused on baseball games, chapels, community meetings, and faces, portraying internees as loyal and dignified Americans. The government allowed him to publish his photos precisely because they served a different purpose. His book <em>Born Free and Equal</em> appeared in 1944, while the war was still ongoing and while people were still imprisoned.
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEW QUESTIONS -->
+  <div class="review-block">
+    <div class="review-label">Review Questions</div>
+    <div class="review-title">Photo Analysis, Japanese Internment</div>
+
+    <div class="review-q">
+      <div class="q-number">Question 1</div>
+      <div class="q-text">How are Lange and Adams different as photographers? How is this reflected in the photos they took of the internment camps?</div>
+      <div class="answer-label">Answer</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+
+    <div class="review-q">
+      <div class="q-number">Question 2</div>
+      <div class="q-text">What did the U.S. Government do to Dorothea Lange's photos? Why do you think they did this to her photos and not Ansel Adams'?</div>
+      <div class="answer-label">Answer</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+
+    <div class="review-q">
+      <div class="q-number">Question 3</div>
+      <div class="q-text">How did Lange use photography to try to point out injustice? How did Adams use his photography to also try to point out injustice? Which approach do you think was most impactful?</div>
+      <div class="answer-label">Lange</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+      <div class="answer-label">Adams</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+      <div class="answer-label">Your View</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+
+    <div class="review-q">
+      <div class="q-number">Question 4</div>
+      <div class="q-text">Choose two photos that made the biggest impact on you (they are numbered). What about these images was impactful?</div>
+      <div class="answer-label">Photo #</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+      <div class="answer-label">Photo #</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+
+    <div class="review-q">
+      <div class="q-number">Question 5</div>
+      <div class="q-text">Explain how you might have felt if you saw these photos during the war. How would you have felt about the internment camps?</div>
+      <div class="answer-label">Answer</div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+      <div class="answer-line"></div>
+    </div>
+
+  </div>
+
+  <div class="source-credit">
+    Sources: Adrian Florido, NPR Code Switch (2016), Dorothea Lange, The Bancroft Library, UC Berkeley, Ansel Adams, Photographic Traveling Exhibitions
+  </div>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="if(event.target===this)closeLightbox({currentTarget:this})">
+  <div class="lightbox-inner" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕ &nbsp;Close</button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+<script>
+  function openLightbox(src, caption) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-caption').textContent = caption || '';
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    // Called directly (close btn, Escape) or via overlay click
+    if (e && e.currentTarget && e.currentTarget.id !== 'lightbox') return;
+    document.getElementById('lightbox').classList.remove('active');
+    document.getElementById('lightbox-img').src = '';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox({target: document.getElementById('lightbox')});
+  });
+</script>
+</body>
+</html>
