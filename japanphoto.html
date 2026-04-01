@@ -384,11 +384,7 @@
     margin-bottom: 10px;
     font-weight: 600;
   }
-  .answer-line {
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 8px;
-    height: 28px;
-  }
+
   .answer-label {
     font-family: 'Oswald', sans-serif;
     font-size: 9px;
@@ -530,22 +526,110 @@
   }
   .lightbox-close:hover { color: #e8e4dc; }
 
-  /* SEE MORE LINK */
-  .see-more-link {
-    margin-top: 14px;
-    margin-bottom: 40px;
+
+
+  /* FURTHER READING */
+  .further-reading {
+    margin: 44px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    padding: 22px 26px 24px;
   }
-  .see-more-link a {
+  .further-label {
     font-family: 'Oswald', sans-serif;
     font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 2px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: var(--text-dim);
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+  .further-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .further-links a {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
     text-decoration: none;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .further-links a:last-child { border-bottom: none; }
+  .further-links a:hover { color: #fff; }
+  .further-links a:hover .link-arrow { color: var(--red); }
+  .link-arrow {
+    font-size: 18px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+    line-height: 1.3;
     transition: color 0.15s;
   }
-  .see-more-link a:hover { color: var(--text-muted); }
+  .link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .link-text strong {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text);
+  }
+  .link-sub {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* COMPACT REVIEW */
+  .review-q {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .review-q:last-child { border-bottom: none; }
+
+  /* VIDEO */
+  .video-block {
+    margin: 48px 0 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    padding: 22px 26px 26px;
+  }
+  .video-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+  .video-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 18px;
+  }
+  .video-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+  }
+  .video-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
 </style>
 </head>
 <body>
@@ -683,11 +767,6 @@
     </div>
   </div>
 
-  <div class="see-more-link">
-    <a href="https://www.loc.gov/collections/manzanar-war-relocation-center-photographs/about-this-collection/" target="_blank" rel="noopener">
-      &#8599; See more of Lange's internment photographs at the Library of Congress
-    </a>
-  </div>
 
   <!-- ANSEL ADAMS PHOTOS -->
   <div class="photographer-label">
@@ -727,67 +806,35 @@
     </div>
   </div>
 
-  <!-- REVIEW TABLE -->
-  <div class="review-block">
-    <div class="review-label">Assessment</div>
-    <div class="review-title">Photo Analysis, Japanese Internment</div>
-    <div class="review-subtitle">Answer all three columns for each photograph. Use complete sentences.</div>
-
-    <div class="review-q">
-      <div class="q-number">Question 1</div>
-      <div class="q-text">How are Lange and Adams different as photographers? How is this reflected in the photos they took of the internment camps?</div>
-      <div class="answer-label">Answer</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
+  
+  <!-- FURTHER READING -->
+  <div class="further-reading">
+    <div class="further-label">Further Reading</div>
+    <div class="further-links">
+      <a href="https://anchoreditions.com/blog/dorothea-lange-censored-photographs" target="_blank" rel="noopener">
+        <span class="link-arrow">&#8599;</span>
+        <span class="link-text">
+          <strong>Dorothea Lange's Censored Photographs</strong>
+          <span class="link-sub">Anchor Editions — the full story of the suppressed WRA images</span>
+        </span>
+      </a>
+      <a href="https://articles.anseladams.com/japanese-american-internment-camps/" target="_blank" rel="noopener">
+        <span class="link-arrow">&#8599;</span>
+        <span class="link-text">
+          <strong>Ansel Adams at Manzanar</strong>
+          <span class="link-sub">AnselAdams.com — Adams's approach and the story behind Born Free and Equal</span>
+        </span>
+      </a>
+      <a href="https://www.npr.org/sections/codeswitch/2016/02/17/466453528/photos-three-very-different-views-of-japanese-internment" target="_blank" rel="noopener">
+        <span class="link-arrow">&#8599;</span>
+        <span class="link-text">
+          <strong>Three Very Different Views of Japanese Internment</strong>
+          <span class="link-sub">NPR Code Switch — comparing Lange, Adams, and a third photographer</span>
+        </span>
+      </a>
     </div>
-
-    <div class="review-q">
-      <div class="q-number">Question 2</div>
-      <div class="q-text">What did the U.S. Government do to Dorothea Lange's photos? Why do you think they did this to her photos and not Ansel Adams'?</div>
-      <div class="answer-label">Answer</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-    </div>
-
-    <div class="review-q">
-      <div class="q-number">Question 3</div>
-      <div class="q-text">How did Lange use photography to try to point out injustice? How did Adams use his photography to also try to point out injustice? Which approach do you think was most impactful?</div>
-      <div class="answer-label">Lange</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-      <div class="answer-label">Adams</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-      <div class="answer-label">Your View</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-    </div>
-
-    <div class="review-q">
-      <div class="q-number">Question 4</div>
-      <div class="q-text">Choose two photos that made the biggest impact on you (they are numbered). What about these images was impactful?</div>
-      <div class="answer-label">Photo #</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-      <div class="answer-label">Photo #</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-    </div>
-
-    <div class="review-q">
-      <div class="q-number">Question 5</div>
-      <div class="q-text">Explain how you might have felt if you saw these photos during the war. How would you have felt about the internment camps?</div>
-      <div class="answer-label">Answer</div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-      <div class="answer-line"></div>
-    </div>
-
   </div>
 
-  <!-- IMPACT COMPARISON -->
   <div class="impact-block">
     <div class="comp-label">Discussion</div>
     <h3>Which approach do you think was the most impactful?</h3>
@@ -803,15 +850,48 @@
     </div>
   </div>
 
-  <div class="source-credit">
-    Sources: Dorothea Lange, The Bancroft Library, UC Berkeley &nbsp;&bull;&nbsp; Ansel Adams, Photographic Traveling Exhibitions
-    <br><br>
-    <a href="https://www.npr.org/sections/codeswitch/2016/02/17/466453528/photos-three-very-different-views-of-japanese-internment" target="_blank" rel="noopener" style="color:var(--text-dim); font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; text-decoration:none;">
-      &#8599; &nbsp;NPR Code Switch: Three Very Different Views of Japanese Internment (2016)
-    </a>
+<!-- REVIEW TABLE -->
+  <div class="review-block">
+    <div class="review-label">Assessment</div>
+    <div class="review-title">Photo Analysis, Japanese Internment</div>
+    <div class="review-subtitle">Use the photographs above and your notes to answer the following questions.</div>
+
+    <div class="review-q">
+      <div class="q-number">Question 1</div>
+      <div class="q-text">How are Lange and Adams different as photographers? How is this reflected in the photos they took of the internment camps?</div>
+    </div>
+
+    <div class="review-q">
+      <div class="q-number">Question 2</div>
+      <div class="q-text">What did the U.S. Government do to Dorothea Lange's photos? Why do you think they did this to her photos and not Ansel Adams'?</div>
+    </div>
+
+    <div class="review-q">
+      <div class="q-number">Question 3</div>
+      <div class="q-text">How did Lange use photography to try to point out injustice? How did Adams use his photography to also try to point out injustice? Which approach do you think was most impactful?</div>
+    </div>
+
+    <div class="review-q" style="border-bottom:none; padding-bottom:0;">
+      <div class="q-number">Question 4</div>
+      <div class="q-text">Choose two photos that made the biggest impact on you (they are numbered). What about these images was impactful?</div>
+    </div>
+
   </div>
 
-</div>
+  <div class="source-credit">
+    Sources: Dorothea Lange, The Bancroft Library, University of California, Berkeley &nbsp;&bull;&nbsp; Ansel Adams, Photographic Traveling Exhibitions &nbsp;&bull;&nbsp; NPR Code Switch (2016)
+  </div>
+
+
+  <!-- VIDEO -->
+  <div class="video-block">
+    <div class="video-label">Video</div>
+    <div class="video-title">Japanese American Internment</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/waOUNwZA4aQ" title="Japanese American Internment" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+  </div>
+
 
 <!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightbox" onclick="if(event.target===this)closeLightbox()">
@@ -838,5 +918,6 @@
     if (e.key === 'Escape') closeLightbox();
   });
 </script>
+
 </body>
 </html>
