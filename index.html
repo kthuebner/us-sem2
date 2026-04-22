@@ -41,7 +41,7 @@
     color: #999;
   }
 
-  /* HERO SECTION — grayscale image bg + banner + cards */
+  /* HERO SECTION */
   .hero-section {
     position: relative;
     background: #111;
@@ -84,12 +84,13 @@
   .unit-card {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 3px solid rgba(255,255,255,0.15);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     padding: 32px 32px 28px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
     transition: background 0.2s, border-color 0.2s;
     animation: fadeUp 0.4s ease both;
   }
@@ -99,15 +100,28 @@
   .unit-card:nth-child(3) { animation-delay: 0.15s; }
   .unit-card:nth-child(4) { animation-delay: 0.20s; }
 
-  .unit-card:hover {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: #c0392b;
-  }
-
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  /* Per-unit colors */
+  .unit-card.u1 { border-top-color: #7a7a7a; }
+  .unit-card.u2 { border-top-color: #8b2a2a; }
+  .unit-card.u3 { border-top-color: #4a7a8c; }
+  .unit-card.u4 { border-top-color: #5a7a40; }
+
+  .unit-card.u1 .unit-num { color: #aaa; }
+  .unit-card.u2 .unit-num { color: #c97070; }
+  .unit-card.u3 .unit-num { color: #7ab8cc; }
+  .unit-card.u4 .unit-num { color: #8ab865; }
+
+  .unit-card.u1:hover { border-color: #7a7a7a; border-top-color: #aaa; }
+  .unit-card.u2:hover { border-color: #8b2a2a; border-top-color: #c97070; }
+  .unit-card.u3:hover { border-color: #4a7a8c; border-top-color: #7ab8cc; }
+  .unit-card.u4:hover { border-color: #5a7a40; border-top-color: #8ab865; }
+
+  .unit-card:hover { background: rgba(255, 255, 255, 0.14); }
 
   /* Card top */
   .card-top {
@@ -121,7 +135,6 @@
     font-weight: 500;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #c0392b;
   }
 
   .unit-title {
@@ -160,9 +173,9 @@
   }
 
   .resource-link:hover {
-    border-color: #c0392b;
     border-style: solid;
     background: #c0392b;
+    border-color: #c0392b;
     color: #fff;
   }
 
@@ -176,7 +189,6 @@
   }
 
   .resource-link:hover .dot { background: rgba(255,255,255,0.5); }
-
   .resource-link span { flex: 1; }
 
   .resource-link .arrow {
@@ -220,23 +232,6 @@
     align-self: center;
   }
 
-  /* PER-UNIT CARD COLORS — top accent border */
-  .unit-card { border-top: 3px solid rgba(255,255,255,0.15); }
-  .unit-card.u1 { border-top-color: #7a7a7a; }
-  .unit-card.u2 { border-top-color: #8b2a2a; }
-  .unit-card.u3 { border-top-color: #4a7a8c; }
-  .unit-card.u4 { border-top-color: #5a7a40; }
-
-  .unit-card.u1 .unit-num { color: #aaa; }
-  .unit-card.u2 .unit-num { color: #c97070; }
-  .unit-card.u3 .unit-num { color: #7ab8cc; }
-  .unit-card.u4 .unit-num { color: #8ab865; }
-
-  .unit-card.u1:hover { border-top-color: #aaa; border-color: #7a7a7a; }
-  .unit-card.u2:hover { border-top-color: #c97070; border-color: #8b2a2a; }
-  .unit-card.u3:hover { border-top-color: #7ab8cc; border-color: #4a7a8c; }
-  .unit-card.u4:hover { border-top-color: #8ab865; border-color: #5a7a40; }
-
   /* FOOTER */
   footer {
     text-align: center;
@@ -245,11 +240,14 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: #ccc;
+    background: #f4f2ed;
   }
 
   @media (max-width: 700px) {
     .unit-grid { grid-template-columns: 1fr; }
     header, main { padding-left: 24px; padding-right: 24px; }
+    .banner { padding-left: 24px; padding-right: 24px; }
+    .banner-title { font-size: 40px; }
   }
 </style>
 </head>
@@ -260,9 +258,9 @@
   <span class="header-course">US History &nbsp;·&nbsp; Sem. 2 &nbsp;·&nbsp; BVA</span>
 </header>
 
+<div class="hero-section">
 <main>
-  <div class="hero-section">
-<div class="banner">
+  <div class="banner">
     <div class="banner-title">US History</div>
     <div class="banner-sub">Sem. 2 &nbsp;·&nbsp; Mr. Huebner &nbsp;·&nbsp; BVA</div>
   </div>
@@ -278,7 +276,12 @@
       <div class="resource-links">
         <a class="resource-link" href="./japanphoto.html">
           <span class="dot"></span>
-          <span>Photo Analysis- Japanese Internment</span>
+          <span>Photo Analysis — Japanese Internment</span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="resource-link" href="#" onclick="return false;">
+          <span class="dot"></span>
+          <span>Resource Link</span>
           <span class="arrow">→</span>
         </a>
         <a class="resource-link" href="#" onclick="return false;">
@@ -289,7 +292,7 @@
       </div>
     </div>
 
-<!-- Unit 2 -->
+    <!-- Unit 2 -->
     <div class="unit-card u2">
       <div class="card-top">
         <div class="unit-num">Unit 2</div>
@@ -301,9 +304,14 @@
           <span>1950s Concept Cloud</span>
           <span class="arrow">→</span>
         </a>
-<a class="resource-link" href="https://www.life.com/history/korean-war-photos-david-douglas-duncan/" target="_blank">
-       <span class="dot"></span>
-          <span>Photo Analysis- Korean War</span>
+        <a class="resource-link" href="https://www.life.com/history/korean-war-photos-david-douglas-duncan/" target="_blank">
+          <span class="dot"></span>
+          <span>Photo Analysis — Korean War</span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="resource-link" href="./cuba.html">
+          <span class="dot"></span>
+          <span>Cuban Missile Crisis</span>
           <span class="arrow">→</span>
         </a>
       </div>
@@ -326,6 +334,11 @@
           <span>Women in the Movement</span>
           <span class="arrow">→</span>
         </a>
+        <a class="resource-link" href="#" onclick="return false;">
+          <span class="dot"></span>
+          <span>Resource Link</span>
+          <span class="arrow">→</span>
+        </a>
       </div>
     </div>
 
@@ -339,6 +352,11 @@
         <a class="resource-link" href="./vietnamphoto.html">
           <span class="dot"></span>
           <span>Photo Analysis</span>
+          <span class="arrow">→</span>
+        </a>
+        <a class="resource-link" href="#" onclick="return false;">
+          <span class="dot"></span>
+          <span>Resource Link</span>
           <span class="arrow">→</span>
         </a>
         <a class="resource-link" href="#" onclick="return false;">
